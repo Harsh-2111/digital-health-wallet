@@ -222,4 +222,29 @@ app.delete('/api/records/:id', verifyToken, async (req, res) => {
 
 // ─── Start Server ─────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`DHW server running on http://localhost:${PORT}`));
+app.listen(PORT, async () => {
+    console.log(`DHW server running on http://localhost:${PORT}`);
+    
+    // Auto-seed doctors with correct hashed passwords
+    try {
+        const doctors = [
+            { name: 'Dr. Harsh Savalia', username: 'harsh',   password: 'pass123'    },
+            { name: 'Dr. Khush',         username: 'khush',   password: 'khush123'   },
+            { name: 'Dr. Naiya',         username: 'naiya',   password: 'naiya123'   },
+            { name: 'Dr. Pratha',        username: 'pratha',  password: 'pratha123'  },
+            { name: 'Dr. Nishtha',       username: 'nishtha', password: 'nishtha123' },
+        ];
+        for (const doc of doctors) {
+            const hash = await bcrypt.hash(doc.password, 10);
+            await pool.execute(
+                `INSERT INTO doctors (name, username, password_hash) 
+                 VALUES (?, ?, ?) 
+                 ON DUPLICATE KEY UPDATE password_hash = ?`,
+                [doc.name, doc.username, hash, hash]
+            );
+        }
+        console.log('Doctors seeded successfully.');
+    } catch (err) {
+        console.error('Seeding error:', err.message);
+    }
+});
