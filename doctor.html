@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="HealthApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+    <title>Doctor Portal - DHW</title>
+    <style>
+        /* Faded background */
+        .p5 {
+            background-image: url('doc.jpeg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+        }
+        /* Dark overlay to fade the background */
+        .p5::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            z-index: 0;
+        }
+        /* All content sits above the overlay */
+        .page-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+        }
+
+        h1 { color: #1a1a2e; }
+        .subtitle { color: #333; font-size: 1rem; margin-bottom: 20px; }
+
+        /* Search bar row */
+        .search-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+        .search-row input {
+            flex: 1;
+            padding: 12px 18px;
+            border-radius: 30px;
+            border: 2px solid #007bff;
+            font-size: 1rem;
+            outline: none;
+            color: #111;
+            background: white;
+            box-shadow: none;
+            width: auto;
+        }
+        .search-row button {
+            padding: 12px 28px;
+            border-radius: 30px;
+            width: auto;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        /* Patient info card */
+        .patient-card {
+            background: white;
+            color: #1a1a2e;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-top: 10px;
+            width: 100%;
+            max-width: 750px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .patient-card h3 { color: #007bff; margin-bottom: 10px; }
+        .patient-card p { font-size: 15px; color: #333; margin: 6px 0; }
+
+        /* Records table */
+        .records-section {
+            width: 100%;
+            max-width: 750px;
+            margin-top: 20px;
+        }
+        .records-section h3 {
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .records-table thead {
+            background: #007bff;
+            color: white;
+        }
+        .records-table thead th {
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .records-table tbody tr {
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .records-table tbody tr:last-child {
+            border-bottom: none;
+        }
+        .records-table tbody tr:hover {
+            background: #f0f7ff;
+        }
+        .records-table tbody td {
+            padding: 12px 15px;
+            font-size: 14px;
+            color: #333;
+            vertical-align: top;
+        }
+        .records-table tbody td.date-col {
+            font-size: 12px;
+            color: #888;
+            white-space: nowrap;
+        }
+
+        .no-records {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            color: #666;
+            margin-top: 10px;
+            width: 100%;
+            max-width: 750px;
+            text-align: center;
+        }
+
+        /* Bottom buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .action-buttons button {
+            width: auto;
+            padding: 12px 30px;
+        }
+        .btn-logout {
+            background: linear-gradient(135deg, #ff4d4d, #cc0000) !important;
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #ff4d4d, #cc0000) !important;
+            padding: 6px 14px !important;
+            font-size: 12px !important;
+            width: auto !important;
+            border-radius: 20px !important;
+        }
+        .btn-delete:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(255,0,0,0.3) !important;
+        }
+        .error-msg {
+            color: #ff4d4d;
+            margin-top: 8px;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="p5" ng-controller="MainController" ng-init="checkAuth()">
+
+    <div class="page-content">
+        <h1>Welcome, {{currentDoctor}}</h1>
+        <p class="subtitle">Search patient records by UHID.</p>
+
+        <!-- Search row — input and button side by side -->
+        <div class="search-row">
+            <input type="text"
+                   ng-model="searchID"
+                   placeholder="Enter UHID to search records"
+                   ng-keyup="$event.keyCode == 13 && searchPatient()">
+            <button ng-click="searchPatient()">Search</button>
+        </div>
+
+        <!-- Error -->
+        <p class="error-msg" ng-if="searchError">{{ searchError }}</p>
+
+        <!-- Patient info card -->
+        <div ng-if="foundPatient" class="patient-card">
+            <h3>Patient Found</h3>
+            <hr>
+            <p><strong>UHID:</strong> {{foundPatient.uhid}}</p>
+            <p><strong>Name:</strong> {{foundPatient.name}}</p>
+            <p><strong>Gender:</strong> {{foundPatient.gender}}</p>
+            <p><strong>DOB:</strong> {{foundPatient.dob | date:'mediumDate'}}</p>
+            <p><strong>Region:</strong> {{foundPatient.region}}</p>
+        </div>
+
+        <!-- Medical records table -->
+        <div class="records-section" ng-if="foundRecords.length > 0">
+            <h3>Medical History — {{foundRecords.length}} record(s)</h3>
+            <table class="records-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Diagnosis</th>
+                        <th>Symptoms</th>
+                        <th>Prescriptions</th>
+                        <th>Added By</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="rec in foundRecords">
+                        <td>{{$index + 1}}</td>
+                        <td>{{rec.diagnosis}}</td>
+                        <td>{{rec.symptoms || '—'}}</td>
+                        <td>{{rec.prescriptions || '—'}}</td>
+                        <td>{{rec.added_by}}</td>
+                        <td class="date-col">{{rec.created_at | date:'d MMM y, h:mm a'}}</td>
+                        <td>
+                            <button class="btn-delete" ng-click="deleteRecord(rec.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- No records yet -->
+        <div class="no-records" ng-if="foundPatient && foundRecords.length === 0">
+            No medical records found for this patient yet.
+        </div>
+
+        <!-- Action buttons -->
+        <div class="action-buttons">
+            <button onclick="window.location.href='add_record.html'">Add New Patient Record</button>
+            <button class="btn-logout" ng-click="logout()">Logout</button>
+        </div>
+    </div>
+
+    <br>
+    <footer>
+        <center><b><font style="color: #333;">Copyright © 2026 Digital Health Wallet. All rights reserved.</font></b></center>
+        Designed and Developed by Nishtha Ghatiya, Pratha Patel and Harsh Savalia<br>
+        <center>📍SVKM's NMIMS, Shirpur.</center>
+    </footer>
+</body>
+</html>
