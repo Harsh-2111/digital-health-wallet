@@ -8,7 +8,7 @@ app.controller('MainController', function($scope, $window, $http) {
     // ── Base URL of your backend server ────────────────────────────────────
     // Change this to your deployed URL when you go live, e.g.:
     // var API = 'https://your-app.railway.app/api';
-    var API = 'https://digital-health-wallet-production-fb20.up.railway.app';
+var API = 'https://digital-health-wallet-production-fb20.up.railway.app/api';
 
     // ── Helper: get stored JWT token ────────────────────────────────────────
     function getToken() {
