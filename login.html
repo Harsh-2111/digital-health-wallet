@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="HealthApp"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Doctor Login - DHW</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-controller="MainController"> <h1>Doctor Login</h1>
+    <div id="registrationForm"> 
+        <form ng-submit="login()">
+            <table align="center" cellpadding="10">
+                <tr>
+    <td style="color: black; text-shadow: 1px 1px 2px white; font-weight: bold;">Username:</td>
+    <td><input type="text" ng-model="username" required></td> 
+</tr>
+<tr>
+    <td style="color: black; text-shadow: 1px 1px 2px white; font-weight: bold;">Password:</td>
+    <td><input type="password" ng-model="password" required></td> 
+</tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <button type="submit">Login</button><br><br><br>
+                        <button onclick="window.location.href='index.html'">Back to Home</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <p style="color: #ff4d4d; font-size: 1rem; text-align: center;">{{errorMessage}}</p>
+    </div>
+<br><br>
+    <footer><center><b><font style="color: black;">Copyright © 2026 Digital Health Wallet. All rights reserved.</b></center></footer>
+        Designed and Developed by Nishtha Ghatiya,Pratha Patel and Harsh Savalia<br><center> 📍SVKM's NMIMS,Shirpur.</center>
+    </body>
+</html>

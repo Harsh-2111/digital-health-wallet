@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="HealthApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+    <title>Registration - DHW</title>
+    <style>
+        .p1 {
+            background-image: url('pd.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            color: rgb(92, 92, 239);
+        }
+    </style>
+</head>
+<body class="p1" ng-controller="MainController">
+
+    <h1>Patient Registration</h1>
+    <p style="padding: 0 15px;">
+        Enter your details to register for the Digital Health Wallet. 
+        This platform is used by doctors to access patient history, 
+        especially in rural areas with limited connectivity.
+    </p>
+
+    <div id="registrationForm">
+        <!-- CHANGED: single form with ng-submit -->
+        <form ng-submit="registerPatient()">
+            <table align="center" cellpadding="10">
+                <tr>
+                    <td>Name:</td>
+                    <!-- CHANGED: kept id="name" for $scope to read via getElementById -->
+                    <td><input type="text" id="name" required></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="email" id="email"></td>
+                </tr>
+                <tr>
+                    <td>Aadhar No:</td>
+                    <td>
+                        <!-- CHANGED: ng-model="regAadhar" so $scope can read it -->
+                        <input type="number"
+                               ng-model="regAadhar"
+                               placeholder="12-digit Aadhar No"
+                               oninput="if(this.value.length > 12) this.value = this.value.slice(0, 12);"
+                               required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>DOB:</td>
+                    <!-- CHANGED: ng-model="regDob" -->
+                    <td><input type="date" ng-model="regDob" required></td>
+                </tr>
+                <tr>
+                    <td>Gender:</td>
+                    <td>
+                        <!-- CHANGED: ng-model="regGender" on each radio -->
+                        <input type="radio" name="gender" ng-model="regGender" value="male">Male
+                        <input type="radio" name="gender" ng-model="regGender" value="female">Female
+                        <input type="radio" name="gender" ng-model="regGender" value="other">Other
+                    </td>
+                </tr>
+                <tr>
+                    <td>Region / Address:</td>
+                    <!-- CHANGED: ng-model="regRegion" -->
+                    <td><textarea ng-model="regRegion" rows="3" placeholder="Enter your address here..." required></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <button type="submit" ng-disabled="regLoading">
+                            {{ regLoading ? 'Registering...' : 'Register' }}
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Error display -->
+            <p ng-if="regError" style="color: #ff4d4d; text-align: center; font-size: 1rem;">{{ regError }}</p>
+        </form>
+    </div>
+
+    <div class="image-container">
+        <img src="r1.jpeg" class="I1" />
+        <img src="r2.jpeg" class="I1" />
+        <img src="r3.jpeg" class="I1" />
+    </div>
+
+    <button onclick="window.location.href='index.html'">Back to Home</button>
+    <br><br>
+    <footer>
+        <center><b><font style="color: black;">Copyright © 2026 Digital Health Wallet. All rights reserved.</font></b></center>
+        Designed and Developed by Nishtha Ghatiya, Pratha Patel and Harsh Savalia<br>
+        <center>📍SVKM's NMIMS, Shirpur.</center>
+    </footer>
+</body>
+</html>

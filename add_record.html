@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="HealthApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+    <title>Add Record - DHW</title>
+    <style>
+        .p2 {
+            background-image: url('ar.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="p2" ng-controller="MainController" ng-init="checkAuth()">
+
+    <center><h1>Add Patient Record</h1></center>
+    <center><p>Enter patient information to add a new record.</p></center>
+
+    <div id="addRecordForm">
+        <!-- CHANGED: ng-submit="addRecord()" instead of plain id -->
+        <form ng-submit="addRecord()">
+            <table align="center" cellpadding="10" style="font-size: 18px;">
+                <tr>
+                    <td>UHID:</td>
+                    <!-- CHANGED: ng-model instead of plain id -->
+                    <td><input type="text" ng-model="recUhid" placeholder="Patient UHID" required></td>
+                </tr>
+                <tr>
+                    <td>Symptoms:</td>
+                    <td><textarea ng-model="recSymptoms" rows="4" cols="50" placeholder="Enter symptoms..."></textarea></td>
+                </tr>
+                <tr>
+                    <td>Diagnosis:</td>
+                    <td><textarea ng-model="recDiagnosis" rows="4" cols="50" placeholder="Enter diagnosis..." required></textarea></td>
+                </tr>
+                <tr>
+                    <td>Prescriptions:</td>
+                    <td><textarea ng-model="recPrescriptions" rows="4" cols="50" placeholder="Enter prescriptions..."></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <!-- CHANGED: type="submit" triggers ng-submit -->
+                        <button type="submit" ng-disabled="recordLoading">
+                            {{ recordLoading ? 'Saving...' : 'Add Record' }}
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Error message display -->
+            <p ng-if="recordError" style="color: #ff4d4d; text-align: center;">{{ recordError }}</p>
+        </form>
+    </div>
+
+    <center><button onclick="window.location.href='doctor.html'">Back to Doctor Portal</button></center>
+    <br><br>
+    <footer>
+        <center><b><font style="color: black;">Copyright © 2026 Digital Health Wallet. All rights reserved.</font></b></center>
+        Designed and Developed by Nishtha Ghatiya, Pratha Patel and Harsh Savalia<br>
+        <center>📍SVKM's NMIMS, Shirpur.</center>
+    </footer>
+</body>
+</html>

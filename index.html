@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Digital Health Wallet</title>
+<style>
+    .index-bg{background-image: url('ind1.jpg');
+        background-size: cover;
+        background-position: center;
+        min-height: 100vh;   /* Changed to min-height for scrolling */
+    }
+    .l1{
+        background-color: rgba(255, 255, 255, 0.15); 
+        backdrop-filter: blur(20px); 
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 20px;
+        color: #0f5802;
+        font-size: clamp(24px, 8vw, 50px); /* Responsive font size */
+        font-family: "Times New Roman", Times, serif;
+    }
+    .l2{    
+        background-color: rgba(231, 14, 14, 0.15); 
+        backdrop-filter: blur(20px); 
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 20px;
+        font-size: 18px;
+        font-family: "Times New Roman", Times, serif;
+        color: #10100f;
+        margin: 10px;
+    }
+    .health-navbar {
+        background-color: #beaf23;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        box-shadow: 0 2px 5px rgba(224, 92, 92, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+
+    .nav-logo { font-size: 22px; font-weight: bold; color: #090909; text-decoration: none; }
+    .nav-links { list-style: none; margin: 0; padding: 0; display: flex; gap: 20px; }
+
+    .nav-links a {
+        text-decoration: none;
+        color: #fd4209;
+        font-size: 16px;
+        padding: 8px 12px;
+        border-radius: 5px;
+        background-color: rgb(240, 216, 124);
+        transition: background-color 0.3s;
+    }
+    
+    @media screen and (max-width: 600px) {
+        .nav-links { gap: 5px; }
+        .nav-links a { font-size: 12px; padding: 5px; }
+    }
+</style>
+</head>
+<body class="index-bg">
+    <nav class="health-navbar">
+        <a href="#" class="nav-logo">🛡️ DHW</a>
+        <ul class="nav-links">
+            <li><a href="client.html">Register</a></li>
+            <li><a href="doctor.html">Doctor</a></li>
+        </ul>
+    </nav>
+
+    <div class="l1" style="margin-top: 80px; text-align: center;">
+        Welcome to Digital Health Wallet
+    </div>
+
+    <p class="l2">Portal where doctors can Access patient information and manage your appointments. Digital Health Wallet is an online platform used by doctors to access general information and past history of patients via web app.</p>
+
+    <div class="image-container">
+        <img src="r1.jpeg" class="I1" />   
+        <img src="r2.jpeg" class="I1" />   
+        <img src="r3.jpeg" class="I1" />    
+        <img src="r4.jpeg" class="I1" />   
+        <img src="r5.jpeg" class="I1" />   
+        <img src="r2.jpeg" class="I1" />    
+    </div>
+
+    <div style="overflow-x: auto; width: 100%; display: flex; justify-content: center;">
+        <table border="1" style="background: #000; font-size: 16px; color: #f3f5ef; width: 90%;">
+            <tr>
+                <td rowspan ="3" align="center" bgcolor="grey">Contact us:</td>
+                <td>Email: <a style="color: #04AA6D;" href="mailto:digitalhealthwallet@gmail.com">digitalhealthwallet@gmail.com</a></td>
+            </tr>
+            <tr><td>LinkedIn: <a style="color: #04AA6D;" href="#">digitalhealthwallet</a></td></tr>
+            <tr><td>Instagram: <a style="color: #04AA6D;" href="#">digitalhealthwallet_NPH</a></td></tr>
+        </table>
+    </div>
+    <br><br>
+    <footer><center><b><font style="color: black;">Copyright © 2026 Digital Health Wallet. All rights reserved.</b></center></footer>
+        Designed and Developed by Nishtha Ghatiya,Pratha Patel and Harsh Savalia<br><center> 📍SVKM's NMIMS,Shirpur.</center>
+</body>
+</html>
