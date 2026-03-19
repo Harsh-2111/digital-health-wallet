@@ -9,7 +9,11 @@ const cors    = require('cors');
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: ['https://harsh-2111.github.io', 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 // ─── Database Connection Pool ─────────────────────────────────────────────────
