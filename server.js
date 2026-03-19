@@ -122,7 +122,7 @@ app.post('/api/patients/register', async (req, res) => {
         await pool.execute(
             `INSERT INTO patients (uhid, name, email, aadhar, phone, dob, gender, region)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [uhid, name, email || null, aadhar, phone || null, dob || null, gender || null, region || null]
+            [uhid, name, email || null, aadhar, phone || null, dob ? dob.split('T')[0] : null, gender || null, region || null]
         );
 
         res.status(201).json({ uhid, message: 'Patient registered successfully.' });
