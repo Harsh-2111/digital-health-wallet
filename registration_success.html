@@ -10,15 +10,29 @@
     <script src="app.js"></script>
 
     <style>
+        /* General Page Styling */
+        body {
+            background-color: #e3f2fd; /* Light Blue background */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
         .success-container {
-            background: #f7c5c5;
+            background: #ffffff; /* White card */
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 123, 255, 0.15);
             max-width: 550px;
             width: 90%;
             text-align: center;
             animation: fadeIn 0.8s ease-out;
+            border: 1px solid #bbdefb;
         }
 
         @keyframes fadeIn {
@@ -27,14 +41,14 @@
         }
 
         h1 {
-            color: #04AA6D;
+            color: #1565c0; /* Deep Blue */
             margin-bottom: 10px;
             font-size: 2.2rem;
         }
 
         .uhid-label {
             font-weight: 600;
-            color: #666;
+            color: #546e7a;
             margin-top: 25px;
             text-transform: uppercase;
             font-size: 0.85rem;
@@ -45,26 +59,47 @@
             font-size: 3rem;
             font-weight: 800;
             color: #fff;
-            background: linear-gradient(135deg, #007bff, #0056b3);
+            background: linear-gradient(135deg, #2196f3, #1976d2); /* Blue Gradient */
             padding: 15px 30px;
             border-radius: 12px;
             display: inline-block;
             margin: 15px 0;
-            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
             letter-spacing: 4px;
         }
 
         .instructions {
-            background-color: #ee05cb;
-            border-left: 4px solid #f4060a;
+            background-color: #e1f5fe; /* Very light blue */
+            border-left: 4px solid #03a9f4; /* Cyan/Blue accent */
             padding: 15px;
             margin: 20px 0;
             font-size: 0.95rem;
-            color: #faf6ec;
+            color: #0277bd;
             text-align: left;
         }
 
+        button {
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
 
+        button:hover {
+            background-color: #1565c0;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #546e7a;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body ng-controller="MainController">
@@ -73,7 +108,7 @@
         <h1>Registration Successful!</h1>
         <p>Welcome to the <strong>Digital Health Wallet</strong>. Your account has been created and your unique identity is ready.</p>
         
-        <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
+        <hr style="border: 0; border-top: 1px solid #e3f2fd; margin: 25px 0;">
 
         <p class="uhid-label">Your Unique Health ID (UHID)</p>
         <div class="uhid-badge">
@@ -88,8 +123,12 @@
             Return to Dashboard
         </button>
     </main>
-    <br>
-    <footer><center><b><font style="color: black;">Copyright © 2026 Digital Health Wallet. All rights reserved.</b></center></footer>
-    Designed and Developed by Nishtha Ghatiya,Pratha Patel and Harsh Savalia<br><center> 📍SVKM's NMIMS,Shirpur.</center>
+
+    <footer>
+        <p>Copyright © 2026 <strong>Digital Health Wallet</strong>. All rights reserved.</p>
+        <p>Designed and Developed by Nishtha Ghatiya, Pratha Patel, and Harsh Savalia</p>
+        <p>📍 SVKM's NMIMS, Shirpur</p>
+    </footer>
+
 </body>
 </html>
