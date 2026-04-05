@@ -1,12 +1,8 @@
-// server.js — Digital Health Wallet Backend
-// Database: Supabase (PostgreSQL)
-// Run: node server.js
-
 const express = require('express');
 const { Pool } = require('pg');
-const bcrypt  = require('bcryptjs');
-const jwt     = require('jsonwebtoken');
-const cors    = require('cors');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
@@ -17,7 +13,6 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// ─── PostgreSQL Connection Pool ───────────────────────────────────────────────
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
@@ -25,10 +20,8 @@ const pool = new Pool({
 
 pool.connect()
     .then(client => { console.log('PostgreSQL connected.'); client.release(); })
-    .catch(err   => console.error('PostgreSQL connection failed:', err.message));
+    .catch(err => console.error('PostgreSQL connection failed:', err.message));
 
-
-// ─── JWT Auth Middleware ──────────────────────────────────────────────────────
 function verifyToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -40,8 +33,6 @@ function verifyToken(req, res, next) {
     });
 }
 
-
-// ─── ROUTE 1: Doctor Login ────────────────────────────────────────────────────
 app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password)
@@ -66,8 +57,6 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-
-// ─── ROUTE 2: Register Patient ────────────────────────────────────────────────
 app.post('/api/patients/register', async (req, res) => {
     const { name, email, aadhar, phone, dob, gender, region } = req.body;
     if (!name || !aadhar)
@@ -96,8 +85,6 @@ app.post('/api/patients/register', async (req, res) => {
     }
 });
 
-
-// ─── ROUTE 3: Search Patient by UHID ─────────────────────────────────────────
 app.get('/api/records/:uhid', verifyToken, async (req, res) => {
     const { uhid } = req.params;
     try {
@@ -114,8 +101,6 @@ app.get('/api/records/:uhid', verifyToken, async (req, res) => {
     }
 });
 
-
-// ─── ROUTE 4: Add Medical Record ─────────────────────────────────────────────
 app.post('/api/records', verifyToken, async (req, res) => {
     const { uhid, symptoms, diagnosis, prescriptions } = req.body;
     if (!uhid || !diagnosis)
@@ -136,8 +121,6 @@ app.post('/api/records', verifyToken, async (req, res) => {
     }
 });
 
-
-// ─── ROUTE 5: Delete Medical Record ──────────────────────────────────────────
 app.delete('/api/records/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
     try {
@@ -151,8 +134,6 @@ app.delete('/api/records/:id', verifyToken, async (req, res) => {
     }
 });
 
-
-// ─── Start Server + Seed Doctors ─────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
     console.log(`DHW server running on port ${PORT}`);
