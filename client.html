@@ -115,7 +115,7 @@
   <div class="page-header">
     <span class="badge">📋 New Registration</span>
     <h1>Patient Registration</h1>
-    <p>Enter your details to register for the Digital Health Wallet. Your UHID will be generated instantly.</p>
+    <p>Enter your details to register for the Seva Health Wallet. Your UHID will be generated instantly.</p>
   </div>
 
   <div id="registrationForm">
@@ -132,11 +132,14 @@
         <tr>
           <td>Aadhar Number</td>
           <td>
-            <input type="number"
-                   ng-model="regAadhar"
+            <input type="text" 
+                   ng-model="regAadhar" 
                    placeholder="12-digit Aadhar number"
-                   oninput="if(this.value.length > 12) this.value = this.value.slice(0, 12);"
-                   required>
+                   required
+                   pattern="\d{12}"
+                   title="Aadhar number must be exactly 12 digits"
+                   maxlength="12"
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);">
           </td>
         </tr>
         <tr>
