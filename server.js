@@ -11,7 +11,7 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors({
-    origin: ['https://harsh-2111.github.io', 'http://localhost:3000'],
+    origin: ['https://harsh-2111.github.io', 'http://localhost:3000', 'http://127.0.0.1:5500'],
     methods: ['GET', 'POST', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -168,7 +168,7 @@ app.listen(PORT, async () => {
             const hash = await bcrypt.hash(doc.password, 10);
             await pool.query(
                 `INSERT INTO doctors (name, username, password_hash) VALUES ($1,$2,$3)
-                 ON CONFLICT (username) DO UPDATE SET password_hash = $3`,
+                 ON CONFLICT (username) DO NOTHING
                 [doc.name, doc.username, hash]
             );
         }
