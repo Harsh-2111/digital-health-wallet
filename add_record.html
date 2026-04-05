@@ -1,68 +1,181 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="HealthApp">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <script src="app.js"></script>
-    <title>Add Record - DHW</title>
-    <style>
-        .p2 {
-            background-image: url('ar.jpg');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="app.js"></script>
+  <title>Add Record — Seva Health</title>
+  <style>
+    body { justify-content: center; align-items: center; padding: 30px 20px 60px; }
+
+    .page-wrap {
+      width: 100%;
+      max-width: 580px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+    .page-header .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--sky-light);
+      color: var(--sky);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 50px;
+      border: 1px solid rgba(91,164,207,0.22);
+      margin-bottom: 10px;
+    }
+    .page-header h1 { font-size: 2rem; margin-bottom: 6px; }
+    .page-header p { font-size: 0.88rem; color: var(--text-light); margin: 0; }
+
+    /* Form card */
+    #addRecordForm {
+      width: 100%;
+      max-width: 580px;
+    }
+
+    /* Override table to column layout */
+    #addRecordForm table { border-spacing: 0; }
+    #addRecordForm tr {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 18px;
+    }
+    #addRecordForm td {
+      display: block;
+      width: 100%;
+      padding: 0;
+    }
+    #addRecordForm td:first-child {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-mid);
+      margin-bottom: 7px;
+      width: 100%;
+    }
+
+    /* UHID input highlight */
+    #addRecordForm input[type="text"] {
+      border-color: rgba(91,164,207,0.40);
+      background: var(--sky-light);
+    }
+    #addRecordForm input[type="text"]:focus {
+      border-color: var(--sky);
+      box-shadow: 0 0 0 3px rgba(91,164,207,0.14);
+    }
+
+    /* Submit row */
+    .submit-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .btn-back {
+      background: transparent !important;
+      border: 1.5px solid var(--border) !important;
+      color: var(--text-mid) !important;
+      box-shadow: none !important;
+    }
+    .btn-back:hover {
+      background: var(--off-white) !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Tip box */
+    .tip-box {
+      width: 100%;
+      background: var(--sky-light);
+      border: 1px solid rgba(91,164,207,0.25);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-size: 0.84rem;
+      color: var(--sky);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .tip-box .tip-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  </style>
 </head>
-<body class="p2" ng-controller="MainController" ng-init="checkAuth()">
+<body ng-controller="MainController" ng-init="checkAuth()">
 
-    <center><h1>Add Patient Record</h1></center>
-    <center><p>Enter patient information to add a new record.</p></center>
+  <div class="page-wrap">
 
-    <div id="addRecordForm">
-        <!-- CHANGED: ng-submit="addRecord()" instead of plain id -->
-        <form ng-submit="addRecord()">
-            <table align="center" cellpadding="10" style="font-size: 18px;">
-                <tr>
-                    <td>UHID:</td>
-                    <!-- CHANGED: ng-model instead of plain id -->
-                    <td><input type="text" ng-model="recUhid" placeholder="Patient UHID" required></td>
-                </tr>
-                <tr>
-                    <td>Symptoms:</td>
-                    <td><textarea ng-model="recSymptoms" rows="4" cols="50" placeholder="Enter symptoms..."></textarea></td>
-                </tr>
-                <tr>
-                    <td>Diagnosis:</td>
-                    <td><textarea ng-model="recDiagnosis" rows="4" cols="50" placeholder="Enter diagnosis..." required></textarea></td>
-                </tr>
-                <tr>
-                    <td>Prescriptions:</td>
-                    <td><textarea ng-model="recPrescriptions" rows="4" cols="50" placeholder="Enter prescriptions..."></textarea></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="center">
-                        <!-- CHANGED: type="submit" triggers ng-submit -->
-                        <button type="submit" ng-disabled="recordLoading">
-                            {{ recordLoading ? 'Saving...' : 'Add Record' }}
-                        </button>
-                    </td>
-                </tr>
-            </table>
-
-            <!-- Error message display -->
-            <p ng-if="recordError" style="color: #ff4d4d; text-align: center;">{{ recordError }}</p>
-        </form>
+    <div class="page-header">
+      <span class="badge">🗒 New Record</span>
+      <h1>Add Patient Record</h1>
+      <p>Fill in the patient's medical information below.</p>
     </div>
 
-    <center><button onclick="window.location.href='doctor.html'">Back to Doctor Portal</button></center>
-    <br><br>
-    <footer>
-        <center><b><font style="color: black;">Copyright © 2026 Digital Health Wallet. All rights reserved.</font></b></center>
-        Designed and Developed by Nishtha Ghatiya, Pratha Patel and Harsh Savalia<br>
-        <center>📍SVKM's NMIMS, Shirpur.</center>
-    </footer>
+    <div class="tip-box">
+      <span class="tip-icon">ℹ️</span>
+      <span>Make sure you have the correct <strong>UHID</strong> before submitting. Only registered patients can receive records.</span>
+    </div>
+
+    <div id="addRecordForm">
+      <form ng-submit="addRecord()">
+        <table>
+          <tr>
+            <td>Patient UHID</td>
+            <td><input type="text" ng-model="recUhid" placeholder="e.g. 4271" required></td>
+          </tr>
+          <tr>
+            <td>Symptoms</td>
+            <td><textarea ng-model="recSymptoms" rows="3" placeholder="Describe the patient's symptoms…"></textarea></td>
+          </tr>
+          <tr>
+            <td>Diagnosis</td>
+            <td><textarea ng-model="recDiagnosis" rows="3" placeholder="Enter the diagnosis…" required></textarea></td>
+          </tr>
+          <tr>
+            <td>Prescriptions</td>
+            <td><textarea ng-model="recPrescriptions" rows="3" placeholder="List prescribed medicines and dosages…"></textarea></td>
+          </tr>
+        </table>
+
+        <div class="submit-row">
+          <button type="submit" ng-disabled="recordLoading">
+            {{ recordLoading ? 'Saving…' : '✓ Save Record' }}
+          </button>
+          <button type="button" class="btn-back" onclick="window.location.href='doctor.html'">
+            ← Back to Portal
+          </button>
+        </div>
+
+        <p ng-if="recordError" style="color:#C53030; text-align:center; font-size:0.88rem; margin-top:14px; background:#FFF0F0; border:1px solid #FFCCCC; padding:10px; border-radius:10px;">
+          {{ recordError }}
+        </p>
+      </form>
+    </div>
+
+  </div>
+
+  <footer>
+    <b>Copyright © 2026 Digital Health Wallet. All rights reserved.</b><br>
+    Designed and Developed by Nishtha Ghatiya, Pratha Patel and Harsh Savalia<br>
+    📍 SVKM's NMIMS, Shirpur.
+  </footer>
+
 </body>
 </html>
