@@ -1,7 +1,3 @@
--- Digital Health Wallet - Database Schema
--- PostgreSQL version for Supabase
--- Run this once in Supabase SQL Editor
-
 CREATE TABLE IF NOT EXISTS doctors (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
