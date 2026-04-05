@@ -1,7 +1,3 @@
-// seed-doctors.js
-// Run once: node seed-doctors.js
-// This inserts all 5 doctors with properly hashed passwords into MySQL
-
 const bcrypt = require('bcryptjs');
 const mysql  = require('mysql2/promise');
 require('dotenv').config();
