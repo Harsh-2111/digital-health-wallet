@@ -1,106 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Digital Health Wallet</title>
-<style>
-    .index-bg{background-image: url('ind1.jpg');
-        background-size: cover;
-        background-position: center;
-        min-height: 100vh;   /* Changed to min-height for scrolling */
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Seva Health </title>
+  <style>
+    body { padding-top: 70px; }
+
+    /* Hero section */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 50px 20px 36px;
+      width: 100%;
+      max-width: 700px;
+      text-align: center;
     }
-    .l1{
-        background-color: rgba(255, 255, 255, 0.15); 
-        backdrop-filter: blur(20px); 
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        padding: 20px;
-        color: #0f5802;
-        font-size: clamp(24px, 8vw, 50px); /* Responsive font size */
-        font-family: "Times New Roman", Times, serif;
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--mint-light);
+      color: var(--mint);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 50px;
+      border: 1px solid rgba(76,175,142,0.25);
+      margin-bottom: 6px;
     }
-    .l2{    
-        background-color: rgba(231, 14, 14, 0.15); 
-        backdrop-filter: blur(20px); 
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        padding: 20px;
-        font-size: 18px;
-        font-family: "Times New Roman", Times, serif;
-        color: #10100f;
-        margin: 10px;
+    .hero h1 {
+      font-size: 2.8rem;
+      line-height: 1.25;
+      margin-bottom: 14px;
     }
-    .health-navbar {
-        background-color: #beaf23;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 20px;
-        box-shadow: 0 2px 5px rgba(224, 92, 92, 0.1);
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 1000;
+    .hero h1 span { color: var(--mint); }
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      max-width: 520px;
+      margin: 0 auto 28px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-outline {
+      background: transparent !important;
+      border: 2px solid var(--mint) !important;
+      color: var(--mint) !important;
+      box-shadow: none !important;
+    }
+    .btn-outline:hover {
+      background: var(--mint-light) !important;
+      box-shadow: none !important;
     }
 
-    .nav-logo { font-size: 22px; font-weight: bold; color: #090909; text-decoration: none; }
-    .nav-links { list-style: none; margin: 0; padding: 0; display: flex; gap: 20px; }
+    /* Stats row */
+    .stats-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-width: 700px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      flex: 1;
+      min-width: 150px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px 18px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-card .stat-num {
+      font-family: 'Lora', serif;
+      font-size: 1.9rem;
+      font-weight: 600;
+      color: var(--mint);
+      display: block;
+    }
+    .stat-card .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 3px;
+      display: block;
+    }
 
-    .nav-links a {
-        text-decoration: none;
-        color: #fd4209;
-        font-size: 16px;
-        padding: 8px 12px;
-        border-radius: 5px;
-        background-color: rgb(240, 216, 124);
-        transition: background-color 0.3s;
+    /* Feature cards */
+    .features-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-width: 720px;
+      margin-bottom: 32px;
     }
-    
-    @media screen and (max-width: 600px) {
-        .nav-links { gap: 5px; }
-        .nav-links a { font-size: 12px; padding: 5px; }
+    .feature-card {
+      flex: 1;
+      min-width: 200px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px 20px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-</style>
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .feature-icon {
+      width: 44px; height: 44px;
+      background: var(--mint-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+    }
+    .feature-card h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+    .feature-card p {
+      font-size: 0.83rem;
+      color: var(--text-light);
+      text-align: left;
+      margin: 0;
+    }
+
+    /* Gallery label */
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-light);
+      margin-bottom: 12px;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* Contact table */
+    .contact-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px 32px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 10px;
+    }
+    .contact-card h4 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-light);
+      margin-bottom: 14px;
+    }
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--text-mid);
+    }
+    .contact-row:last-child { border-bottom: none; }
+    .contact-row a { color: var(--mint); text-decoration: none; font-weight: 500; }
+    .contact-row a:hover { text-decoration: underline; }
+    .contact-icon { font-size: 1rem; width: 20px; text-align: center; }
+  </style>
 </head>
-<body class="index-bg">
-    <nav class="health-navbar">
-        <a href="#" class="nav-logo">🛡️ DHW</a>
-        <ul class="nav-links">
-            <li><a href="client.html">Register</a></li>
-            <li><a href="doctor.html">Doctor</a></li>
-        </ul>
-    </nav>
+<body>
 
-    <div class="l1" style="margin-top: 80px; text-align: center;">
-        Welcome to Digital Health Wallet
+  <nav class="health-navbar">
+    <a href="#" class="nav-logo">🩺 Seva Health</a>
+    <ul class="nav-links">
+      <li><a href="client.html">Register</a></li>
+      <li><a href="login.html">Doctor Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <span class="hero-badge">🌿 Seva Health</span>
+    <h1>Your Health Records,<br><span>Always Accessible</span></h1>
+    <p>A secure platform that helps doctors access patient history — even in rural areas with limited connectivity.</p>
+    <div class="hero-actions">
+      <button onclick="window.location.href='client.html'">Register as Patient</button>
+      <button class="btn-outline" onclick="window.location.href='login.html'">Doctor Login</button>
     </div>
+  </section>
 
-    <p class="l2">Portal where doctors can Access patient information and manage your appointments. Digital Health Wallet is an online platform used by doctors to access general information and past history of patients via web app.</p>
-
-    <div class="image-container">
-        <img src="r1.jpeg" class="I1" />   
-        <img src="r2.jpeg" class="I1" />   
-        <img src="r3.jpeg" class="I1" />    
-        <img src="r4.jpeg" class="I1" />   
-        <img src="r5.jpeg" class="I1" />   
-        <img src="r2.jpeg" class="I1" />    
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <span class="stat-num">4-digit</span>
+      <span class="stat-label">Unique UHID</span>
     </div>
-
-    <div style="overflow-x: auto; width: 100%; display: flex; justify-content: center;">
-        <table border="1" style="background: #000; font-size: 16px; color: #f3f5ef; width: 90%;">
-            <tr>
-                <td rowspan ="3" align="center" bgcolor="grey">Contact us:</td>
-                <td>Email: <a style="color: #04AA6D;" href="mailto:digitalhealthwallet@gmail.com">digitalhealthwallet@gmail.com</a></td>
-            </tr>
-            <tr><td>LinkedIn: <a style="color: #04AA6D;" href="#">digitalhealthwallet</a></td></tr>
-            <tr><td>Instagram: <a style="color: #04AA6D;" href="#">digitalhealthwallet_NPH</a></td></tr>
-        </table>
+    <div class="stat-card">
+      <span class="stat-num">5+</span>
+      <span class="stat-label">Doctors</span>
     </div>
-    <br><br>
-    <footer><center><b><font style="color: black;">Copyright © 2026 Digital Health Wallet. All rights reserved.</b></center></footer>
-        Designed and Developed by Nishtha Ghatiya,Pratha Patel and Harsh Savalia<br><center> 📍SVKM's NMIMS,Shirpur.</center>
+    <div class="stat-card">
+      <span class="stat-num">Secure</span>
+      <span class="stat-label">JWT Auth</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num">Rural</span>
+      <span class="stat-label">Friendly</span>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="features-row">
+    <div class="feature-card">
+      <div class="feature-icon">📋</div>
+      <h4>Patient Registration</h4>
+      <p>Register with Aadhar & get a unique UHID instantly.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔍</div>
+      <h4>Instant Record Search</h4>
+      <p>Doctors search by UHID to view full medical history.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h4>Secure Access</h4>
+      <p>JWT-protected doctor portal. Patient data stays safe.</p>
+    </div>
+  </div>
+
+  <!-- Gallery -->
+  <p class="section-label">From Our Clinics</p>
+  <div class="image-container">
+    <img src="r1.jpeg" class="I1" alt="Clinic 1"/>
+    <img src="r2.jpeg" class="I1" alt="Clinic 2"/>
+    <img src="r3.jpeg" class="I1" alt="Clinic 3"/>
+    <img src="r4.jpeg" class="I1" alt="Clinic 4"/>
+    <img src="r5.jpeg" class="I1" alt="Clinic 5"/>
+    <img src="r2.jpeg" class="I1" alt="Clinic 6"/>
+  </div>
+
+  <!-- Contact -->
+  <div class="contact-card">
+    <h4>Contact Us</h4>
+    <div class="contact-row">
+      <span class="contact-icon">📧</span>
+      <a href="mailto:digitalhealthwallet@gmail.com">sevahealth@gmail.com</a>
+    </div>
+    <div class="contact-row">
+      <span class="contact-icon">💼</span>
+      <a href="#">sevahealth</a> (LinkedIn)
+    </div>
+    <div class="contact-row">
+      <span class="contact-icon">📷</span>
+      <a href="#">sevahealth_NPH</a> (Instagram)
+    </div>
+  </div>
+
+  <footer>
+    <b>Copyright © 2026 Digital Health Wallet. All rights reserved.</b><br>
+    Designed and Developed by Nishtha Ghatiya, Pratha Patel and Harsh Savalia<br>
+    📍 SVKM's NMIMS, Shirpur.
+  </footer>
+
 </body>
 </html>
