@@ -155,8 +155,17 @@ app.controller('MainController', function($scope, $window, $http) {
 
     // 8. LOGOUT
     $scope.logout = function() {
-        sessionStorage.clear();
-        $window.location.href = 'login.html';
+        // Use window.confirm to create a browser popup
+        var confirmLogout = confirm("Are you sure you want to sign out?");
+        
+        if (confirmLogout) {
+            // If user clicks "OK", clear session and redirect
+            sessionStorage.clear();
+            $window.location.href = 'login.html';
+        } else {
+            // If user clicks "Cancel", do nothing and stay on the page
+            console.log("Logout cancelled by user.");
+        }
     };
 
 });
