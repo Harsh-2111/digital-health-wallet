@@ -1,100 +1,210 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="HealthApp">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <script src="app.js"></script>
-    <title>Registration - DHW</title>
-    <style>
-        .p1 {
-            background-image: url('pd.jpg');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
-            color: rgb(92, 92, 239);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="app.js"></script>
+  <title>Patient Registration — Seva</title>
+  <style>
+    body { padding-top: 20px; }
+
+    .page-header {
+      width: 100%;
+      max-width: 680px;
+      text-align: center;
+      padding: 32px 20px 18px;
+    }
+    .page-header .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--mint-light);
+      color: var(--mint);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 50px;
+      border: 1px solid rgba(76,175,142,0.22);
+      margin-bottom: 12px;
+    }
+    .page-header h1 { margin-bottom: 8px; }
+    .page-header p { font-size: 0.93rem; color: var(--text-mid); margin: 0; }
+
+    /* Form card - override table layout to a cleaner grid */
+    #registrationForm {
+      max-width: 560px;
+    }
+    #registrationForm table {
+      border-spacing: 0;
+    }
+    #registrationForm tr {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
+    #registrationForm td {
+      padding: 0;
+      display: block;
+      width: 100%;
+    }
+    #registrationForm td:first-child {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-mid);
+      margin-bottom: 6px;
+      width: 100%;
+    }
+
+    /* Gender radios */
+    .gender-group {
+      display: flex;
+      gap: 18px;
+      padding: 10px 0 4px;
+    }
+    .gender-option {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.92rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      font-weight: 400;
+    }
+    .gender-option input[type="radio"] {
+      width: auto;
+      padding: 0;
+      border: none;
+      box-shadow: none;
+      margin: 0;
+      accent-color: var(--mint);
+    }
+
+    /* Submit row */
+    .submit-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .btn-back {
+      background: transparent !important;
+      border: 1.5px solid var(--border) !important;
+      color: var(--text-mid) !important;
+      box-shadow: none !important;
+    }
+    .btn-back:hover {
+      background: var(--off-white) !important;
+      transform: none !important;
+    }
+
+    /* Gallery below form */
+    .gallery-section {
+      width: 100%;
+      max-width: 680px;
+    }
+    .gallery-label {
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-light);
+      text-align: center;
+      margin-bottom: 14px;
+    }
+  </style>
 </head>
-<body class="p1" ng-controller="MainController">
+<body ng-controller="MainController">
 
+  <div class="page-header">
+    <span class="badge">📋 New Registration</span>
     <h1>Patient Registration</h1>
-    <p style="padding: 0 15px;">
-        Enter your details to register for the Digital Health Wallet. 
-        This platform is used by doctors to access patient history, 
-        especially in rural areas with limited connectivity.
-    </p>
+    <p>Enter your details to register for the Digital Health Wallet. Your UHID will be generated instantly.</p>
+  </div>
 
-    <div id="registrationForm">
-        <!-- CHANGED: single form with ng-submit -->
-        <form ng-submit="registerPatient()">
-            <table align="center" cellpadding="10">
-                <tr>
-                    <td>Name:</td>
-                    <!-- CHANGED: kept id="name" for $scope to read via getElementById -->
-                    <td><input type="text" id="name" required></td>
-                </tr>
-                <tr>
-                    <td>Email:</td>
-                    <td><input type="email" id="email"></td>
-                </tr>
-                <tr>
-                    <td>Aadhar No:</td>
-                    <td>
-                        <!-- CHANGED: ng-model="regAadhar" so $scope can read it -->
-                        <input type="number"
-                               ng-model="regAadhar"
-                               placeholder="12-digit Aadhar No"
-                               oninput="if(this.value.length > 12) this.value = this.value.slice(0, 12);"
-                               required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>DOB:</td>
-                    <!-- CHANGED: ng-model="regDob" -->
-                    <td><input type="date" ng-model="regDob" required></td>
-                </tr>
-                <tr>
-                    <td>Gender:</td>
-                    <td>
-                        <!-- CHANGED: ng-model="regGender" on each radio -->
-                        <input type="radio" name="gender" ng-model="regGender" value="male">Male
-                        <input type="radio" name="gender" ng-model="regGender" value="female">Female
-                        <input type="radio" name="gender" ng-model="regGender" value="other">Other
-                    </td>
-                </tr>
-                <tr>
-                    <td>Region / Address:</td>
-                    <!-- CHANGED: ng-model="regRegion" -->
-                    <td><textarea ng-model="regRegion" rows="3" placeholder="Enter your address here..." required></textarea></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="center">
-                        <button type="submit" ng-disabled="regLoading">
-                            {{ regLoading ? 'Registering...' : 'Register' }}
-                        </button>
-                    </td>
-                </tr>
-            </table>
+  <div id="registrationForm">
+    <form ng-submit="registerPatient()">
+      <table>
+        <tr>
+          <td>Full Name</td>
+          <td><input type="text" id="name" placeholder="Enter your full name" required></td>
+        </tr>
+        <tr>
+          <td>Email Address</td>
+          <td><input type="email" id="email" placeholder="your@email.com"></td>
+        </tr>
+        <tr>
+          <td>Aadhar Number</td>
+          <td>
+            <input type="number"
+                   ng-model="regAadhar"
+                   placeholder="12-digit Aadhar number"
+                   oninput="if(this.value.length > 12) this.value = this.value.slice(0, 12);"
+                   required>
+          </td>
+        </tr>
+        <tr>
+          <td>Date of Birth</td>
+          <td><input type="date" ng-model="regDob" required></td>
+        </tr>
+        <tr>
+          <td>Gender</td>
+          <td>
+            <div class="gender-group">
+              <label class="gender-option">
+                <input type="radio" name="gender" ng-model="regGender" value="male"> Male
+              </label>
+              <label class="gender-option">
+                <input type="radio" name="gender" ng-model="regGender" value="female"> Female
+              </label>
+              <label class="gender-option">
+                <input type="radio" name="gender" ng-model="regGender" value="other"> Other
+              </label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Region / Address</td>
+          <td><textarea ng-model="regRegion" rows="3" placeholder="Enter your full address…" required></textarea></td>
+        </tr>
+      </table>
 
-            <!-- Error display -->
-            <p ng-if="regError" style="color: #ff4d4d; text-align: center; font-size: 1rem;">{{ regError }}</p>
-        </form>
-    </div>
+      <div class="submit-row">
+        <button type="submit" ng-disabled="regLoading">
+          {{ regLoading ? 'Registering…' : '✓ Register Patient' }}
+        </button>
+        <button type="button" class="btn-back" onclick="window.location.href='index.html'">
+          ← Back to Home
+        </button>
+      </div>
 
+      <p ng-if="regError" style="color:#C53030; text-align:center; font-size:0.88rem; margin-top:14px; background:#FFF0F0; border:1px solid #FFCCCC; padding:10px; border-radius:10px;">
+        {{ regError }}
+      </p>
+    </form>
+  </div>
+
+  <div class="gallery-section">
+    <p class="gallery-label">Our Participating Clinics</p>
     <div class="image-container">
-        <img src="r1.jpeg" class="I1" />
-        <img src="r2.jpeg" class="I1" />
-        <img src="r3.jpeg" class="I1" />
+      <img src="r1.jpeg" class="I1" alt="Clinic 1"/>
+      <img src="r2.jpeg" class="I1" alt="Clinic 2"/>
+      <img src="r3.jpeg" class="I1" alt="Clinic 3"/>
     </div>
+  </div>
 
-    <button onclick="window.location.href='index.html'">Back to Home</button>
-    <br><br>
-    <footer>
-        <center><b><font style="color: black;">Copyright © 2026 Digital Health Wallet. All rights reserved.</font></b></center>
-        Designed and Developed by Nishtha Ghatiya, Pratha Patel and Harsh Savalia<br>
-        <center>📍SVKM's NMIMS, Shirpur.</center>
-    </footer>
+  <footer>
+    <b>Copyright © 2026 Digital Health Wallet. All rights reserved.</b><br>
+    Designed and Developed by Nishtha Ghatiya, Pratha Patel and Harsh Savalia<br>
+    📍 SVKM's NMIMS, Shirpur.
+  </footer>
+
 </body>
 </html>
