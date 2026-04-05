@@ -48,6 +48,11 @@ app.controller('MainController', function($scope, $window, $http) {
 
     // 3. REGISTER PATIENT
     $scope.registerPatient = function() {
+        var aadharStr = String($scope.regAadhar || "");
+        if (aadharStr.length !== 12) {
+            $scope.regError = "Aadhar number must be exactly 12 digits.";
+            return; 
+        }
         $scope.regError   = '';
         $scope.regLoading = true;
 
