@@ -1,5 +1,3 @@
-// app.js — Digital Health Wallet (Frontend)
-
 var app = angular.module('HealthApp', []);
 
 app.controller('MainController', function($scope, $window, $http) {
@@ -14,7 +12,6 @@ app.controller('MainController', function($scope, $window, $http) {
         return { headers: { 'Authorization': 'Bearer ' + getToken() } };
     }
 
-    // 1. DOCTOR LOGIN
     $scope.login = function() {
         $scope.errorMessage = '';
         $scope.loading = true;
@@ -37,7 +34,6 @@ app.controller('MainController', function($scope, $window, $http) {
         });
     };
 
-    // 2. AUTH CHECK
     $scope.checkAuth = function() {
         if (sessionStorage.getItem('isLoggedIn') !== 'true') {
             alert('Unauthorized access! Please login as a doctor.');
@@ -46,7 +42,6 @@ app.controller('MainController', function($scope, $window, $http) {
         $scope.currentDoctor = sessionStorage.getItem('doctorName');
     };
 
-    // 3. REGISTER PATIENT
     $scope.registerPatient = function() {
         var aadharStr = String($scope.regAadhar || "");
         if (aadharStr.length !== 12) {
@@ -84,7 +79,6 @@ app.controller('MainController', function($scope, $window, $http) {
         });
     };
 
-    // 4. SEARCH PATIENT BY UHID
     $scope.searchPatient = function() {
         $scope.foundPatient = null;
         $scope.foundRecords = [];
@@ -110,7 +104,6 @@ app.controller('MainController', function($scope, $window, $http) {
         });
     };
 
-    // 5. ADD MEDICAL RECORD
     $scope.addRecord = function() {
         $scope.recordError   = '';
         $scope.recordLoading = true;
@@ -140,7 +133,6 @@ app.controller('MainController', function($scope, $window, $http) {
         });
     };
 
-    // 6. DELETE MEDICAL RECORD
     $scope.deleteRecord = function(recordId) {
         if (!confirm('Are you sure you want to delete this record? This cannot be undone.')) return;
 
@@ -161,20 +153,15 @@ app.controller('MainController', function($scope, $window, $http) {
         });
     };
 
-    // 7. DISPLAY UHID ON SUCCESS PAGE
     $scope.displayUHID = localStorage.getItem('lastGeneratedUHID');
 
-    // 8. LOGOUT
     $scope.logout = function() {
-        // Use window.confirm to create a browser popup
         var confirmLogout = confirm("Are you sure you want to sign out?");
         
         if (confirmLogout) {
-            // If user clicks "OK", clear session and redirect
             sessionStorage.clear();
             $window.location.href = 'login.html';
         } else {
-            // If user clicks "Cancel", do nothing and stay on the page
             console.log("Logout cancelled by user.");
         }
     };
