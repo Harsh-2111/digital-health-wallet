@@ -53,6 +53,12 @@ app.controller('MainController', function($scope, $window, $http) {
             $scope.regError = "Aadhar number must be exactly 12 digits.";
             return; 
         }
+        var selectedDate = new Date($scope.regDob);
+        var now = new Date();
+        if (selectedDate > now) {
+            $scope.regError = "Date of Birth cannot be in the future.";
+            return;
+        }
         $scope.regError   = '';
         $scope.regLoading = true;
 
