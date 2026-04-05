@@ -1,30 +1,20 @@
 // app.js — Digital Health Wallet (Frontend)
-// UPDATED: All data now comes from the backend API, not localStorage
 
 var app = angular.module('HealthApp', []);
 
 app.controller('MainController', function($scope, $window, $http) {
 
-    // ── Base URL of your backend server ────────────────────────────────────
-    // Change this to your deployed URL when you go live, e.g.:
-    // var API = 'https://your-app.railway.app/api';
-var API = 'https://digital-health-wallet-ysb8.onrender.com/api';
+    var API = 'https://digital-health-wallet-ysb8.onrender.com/api';
 
-    // ── Helper: get stored JWT token ────────────────────────────────────────
     function getToken() {
         return sessionStorage.getItem('authToken');
     }
 
-    // ── Helper: build Authorization header ─────────────────────────────────
     function authHeader() {
         return { headers: { 'Authorization': 'Bearer ' + getToken() } };
     }
 
-
-    // ────────────────────────────────────────────────────────────────────────
     // 1. DOCTOR LOGIN
-    // Called from: login.html  (ng-submit="login()")
-    // ────────────────────────────────────────────────────────────────────────
     $scope.login = function() {
         $scope.errorMessage = '';
         $scope.loading = true;
@@ -34,10 +24,9 @@ var API = 'https://digital-health-wallet-ysb8.onrender.com/api';
             password: $scope.password
         })
         .then(function(response) {
-            // Save token and doctor name to sessionStorage
-            sessionStorage.setItem('authToken',   response.data.token);
-            sessionStorage.setItem('doctorName',  response.data.doctorName);
-            sessionStorage.setItem('isLoggedIn',  'true');
+            sessionStorage.setItem('authToken',  response.data.token);
+            sessionStorage.setItem('doctorName', response.data.doctorName);
+            sessionStorage.setItem('isLoggedIn', 'true');
             $window.location.href = 'doctor.html';
         })
         .catch(function(error) {
@@ -48,10 +37,7 @@ var API = 'https://digital-health-wallet-ysb8.onrender.com/api';
         });
     };
 
-
-    // ────────────────────────────────────────────────────────────────────────
-    // 2. AUTH CHECK (called on doctor.html load via ng-init)
-    // ────────────────────────────────────────────────────────────────────────
+    // 2. AUTH CHECK
     $scope.checkAuth = function() {
         if (sessionStorage.getItem('isLoggedIn') !== 'true') {
             alert('Unauthorized access! Please login as a doctor.');
@@ -60,18 +46,14 @@ var API = 'https://digital-health-wallet-ysb8.onrender.com/api';
         $scope.currentDoctor = sessionStorage.getItem('doctorName');
     };
 
-
-    // ────────────────────────────────────────────────────────────────────────
     // 3. REGISTER PATIENT
-    // Called from: client.html  (ng-submit="registerPatient()")
-    // ────────────────────────────────────────────────────────────────────────
     $scope.registerPatient = function() {
         $scope.regError   = '';
         $scope.regLoading = true;
 
         var patientData = {
-            name:   document.getElementById('name').value,
-            email:  document.getElementById('email').value,
+            name:   $scope.regName,
+            email:  $scope.regEmail,
             aadhar: $scope.regAadhar,
             dob:    $scope.regDob,
             gender: $scope.regGender,
@@ -80,7 +62,6 @@ var API = 'https://digital-health-wallet-ysb8.onrender.com/api';
 
         $http.post(API + '/patients/register', patientData)
         .then(function(response) {
-            // Store UHID for success page to display
             localStorage.setItem('lastGeneratedUHID', response.data.uhid);
             $window.location.href = 'registration_success.html';
         })
@@ -92,11 +73,7 @@ var API = 'https://digital-health-wallet-ysb8.onrender.com/api';
         });
     };
 
-
-    // ────────────────────────────────────────────────────────────────────────
     // 4. SEARCH PATIENT BY UHID
-    // Called from: doctor.html  (ng-click="searchPatient()")
-    // ────────────────────────────────────────────────────────────────────────
     $scope.searchPatient = function() {
         $scope.foundPatient = null;
         $scope.foundRecords = [];
@@ -122,11 +99,7 @@ var API = 'https://digital-health-wallet-ysb8.onrender.com/api';
         });
     };
 
-
-    // ────────────────────────────────────────────────────────────────────────
     // 5. ADD MEDICAL RECORD
-    // Called from: add_record.html  (ng-submit="addRecord()")
-    // ────────────────────────────────────────────────────────────────────────
     $scope.addRecord = function() {
         $scope.recordError   = '';
         $scope.recordLoading = true;
@@ -156,17 +129,12 @@ var API = 'https://digital-health-wallet-ysb8.onrender.com/api';
         });
     };
 
-
-    // ────────────────────────────────────────────────────────────────────────
     // 6. DELETE MEDICAL RECORD
-    // Called from: doctor.html  (ng-click="deleteRecord(rec.id)")
-    // ────────────────────────────────────────────────────────────────────────
     $scope.deleteRecord = function(recordId) {
         if (!confirm('Are you sure you want to delete this record? This cannot be undone.')) return;
 
         $http.delete(API + '/records/' + recordId, authHeader())
         .then(function() {
-            // Remove from local array so table updates instantly without re-searching
             $scope.foundRecords = $scope.foundRecords.filter(function(r) {
                 return r.id !== recordId;
             });
@@ -182,17 +150,10 @@ var API = 'https://digital-health-wallet-ysb8.onrender.com/api';
         });
     };
 
-
-    // ────────────────────────────────────────────────────────────────────────
-    // 6. DISPLAY UHID ON SUCCESS PAGE
-    // Called from: registration_success.html
-    // ────────────────────────────────────────────────────────────────────────
+    // 7. DISPLAY UHID ON SUCCESS PAGE
     $scope.displayUHID = localStorage.getItem('lastGeneratedUHID');
 
-
-    // ────────────────────────────────────────────────────────────────────────
-    // 7. LOGOUT
-    // ────────────────────────────────────────────────────────────────────────
+    // 8. LOGOUT
     $scope.logout = function() {
         sessionStorage.clear();
         $window.location.href = 'login.html';
