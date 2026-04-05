@@ -168,7 +168,7 @@ app.listen(PORT, async () => {
             const hash = await bcrypt.hash(doc.password, 10);
             await pool.query(
                 `INSERT INTO doctors (name, username, password_hash) VALUES ($1,$2,$3)
-                 ON CONFLICT (username) DO NOTHING
+                 ON CONFLICT (username) DO NOTHING`,
                 [doc.name, doc.username, hash]
             );
         }
