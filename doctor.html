@@ -19,7 +19,6 @@
       padding: 0 16px;
     }
 
-    /* Welcome strip */
     .welcome-strip {
       width: 100%;
       background: var(--gradient);
@@ -63,7 +62,6 @@
       transform: none !important;
     }
 
-    /* Search bar */
     .search-card {
       width: 100%;
       background: var(--card-bg);
@@ -114,7 +112,6 @@
       margin-top: 8px;
     }
 
-    /* Patient info card */
     .patient-card {
       width: 100%;
       background: var(--card-bg);
@@ -269,7 +266,6 @@
     }
     .no-records-card .icon { font-size: 2rem; margin-bottom: 8px; display: block; }
 
-    /* Action buttons */
     .action-row {
       display: flex;
       gap: 12px;
@@ -291,7 +287,6 @@
 
   <div class="page-content">
 
-    <!-- Welcome strip -->
     <div class="welcome-strip">
       <div class="greet">
         <small>Logged in as</small>
@@ -300,7 +295,6 @@
       <button class="btn-logout" ng-click="logout()">Sign Out</button>
     </div>
 
-    <!-- Search -->
     <div class="search-card">
       <h3>Search Patient</h3>
       <div class="search-row">
@@ -313,7 +307,6 @@
       <p class="search-error" ng-if="searchError">⚠ {{ searchError }}</p>
     </div>
 
-    <!-- Patient card -->
     <div class="patient-card" ng-if="foundPatient">
       <div class="card-head">
         <div class="patient-avatar">👤</div>
@@ -339,7 +332,6 @@
       </div>
     </div>
 
-    <!-- Records -->
     <div class="records-section" ng-if="foundRecords.length > 0">
       <div class="records-header">
         <h3>Medical History</h3>
@@ -371,13 +363,11 @@
       </table>
     </div>
 
-    <!-- No records -->
     <div class="no-records-card" ng-if="foundPatient && foundRecords.length === 0">
       <span class="icon">📂</span>
       No medical records found for this patient yet.
     </div>
 
-    <!-- Action buttons -->
     <div class="action-row">
       <button class="btn-add" onclick="window.location.href='add_record.html'">+ Add New Record</button>
     </div>
